@@ -1,5 +1,4 @@
 "use client";
-import Container from "@mui/material/Container/Container";
 import { SignInForm } from "./components/SignInForm";
 import { Suspense, useContext, useLayoutEffect } from "react";
 import { AuthContext } from "@/context/AuthContext";
@@ -14,10 +13,8 @@ export default function SignInPage() {
   }, []);
   return (
     <Suspense fallback={<Loading />}>
-      <main>
-        <Container className="h-screen grid place-items-center">
-          <SignInForm />
-        </Container>
+      <main className="h-screen grid place-items-center">
+        <SignInForm />
       </main>
     </Suspense>
   );
