@@ -1,3 +1,4 @@
+"use client";
 import { EmailVerifiedForm } from "./components/EmailVerifiedFrom";
 import { Suspense } from "react";
 import Loading from "./loading";
