@@ -4,7 +4,7 @@ import { Suspense, useContext, useLayoutEffect } from "react";
 import Loading from "./loading";
 import { ActivityListBoard } from "./components/ActivityListBoard";
 import { AuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const authContext = useContext(AuthContext);
@@ -13,6 +13,7 @@ export default function HomePage() {
   useLayoutEffect(() => {
     if (!authContext?.user) router.push("/");
   }, []);
+
   return (
     <Suspense fallback={<Loading />}>
       <Header />
