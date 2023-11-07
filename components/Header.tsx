@@ -12,10 +12,6 @@ export const Header = () => {
   const authContext = useContext(AuthContext);
   const router = useRouter();
 
-  useLayoutEffect(() => {
-    if (!authContext?.user) router.push("/");
-  }, []);
-
   const handleClickTitle = () => router.refresh();
 
   const handleClickSignOutBtn = () => {
