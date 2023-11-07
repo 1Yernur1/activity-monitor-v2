@@ -15,7 +15,7 @@ export const SignInFormOptions = ({
         />
       </Grid>
       <Grid item xs className="text-right">
-        <Link href="/auth/email-verification">Forgot password?</Link>
+        <Link href="auth/email-verification">Forgot password?</Link>
       </Grid>
     </Grid>
   );

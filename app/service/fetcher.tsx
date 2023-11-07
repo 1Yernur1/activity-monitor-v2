@@ -25,19 +25,3 @@ export const singInWithEmailAndPassword = async (
     return response.json();
   });
 };
-
-export const getAllActivities = async (token: string) => {
-  const url = "http://localhost:8080";
-  return await fetch(`${url}/projects`, {
-    headers: {
-      "Authorization": `Bearer ${token}`,
-    },
-  }).then((response) => {
-    if (response.status >= 400) {
-      return response.json().then((errorData) => {
-        throw new Error(errorData);
-      });
-    }
-    return response.json();
-  });
-};

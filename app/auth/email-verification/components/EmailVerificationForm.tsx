@@ -26,7 +26,7 @@ export const EmailVerificationForm = () => {
     event.preventDefault();
     setIsSubmitButtonDisabled(true);
     sendPasswordResetEmail(auth, email)
-      .then(() => router.push("/auth/email-verified"))
+      .then(() => router.push("auth/email-verified"))
       .catch(() => setIsSubmitButtonDisabled(false));
   };
   return (
