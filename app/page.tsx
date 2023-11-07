@@ -4,6 +4,7 @@ import { Suspense, useContext, useLayoutEffect } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Loading from "./loading";
+import { Header } from "@/components/Header";
 
 export default function SignInPage() {
   const authContext = useContext(AuthContext);
@@ -13,7 +14,8 @@ export default function SignInPage() {
   }, []);
   return (
     <Suspense fallback={<Loading />}>
-      <main className="h-screen grid place-items-center">
+      <Header />
+      <main>
         <SignInForm />
       </main>
     </Suspense>

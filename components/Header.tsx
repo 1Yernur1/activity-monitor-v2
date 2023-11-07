@@ -1,4 +1,3 @@
-import { getAllActivities } from "@/app/service/fetcher";
 import { auth } from "@/config/firebaseConfig";
 import { AuthContext } from "@/context/AuthContext";
 import { Button } from "@mui/material";
@@ -7,29 +6,38 @@ import Toolbar from "@mui/material/Toolbar/Toolbar";
 import Typography from "@mui/material/Typography/Typography";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 
 export const Header = () => {
   const authContext = useContext(AuthContext);
   const router = useRouter();
+
+  useLayoutEffect(() => {
+    if (!authContext?.user) router.push("/");
+  }, []);
+
+  const handleClickTitle = () => router.refresh();
+
   const handleClickSignOutBtn = () => {
-    signOut(auth).then(() => router.push("/"));
     authContext?.setUser(null);
+    signOut(auth).then(() => router.push("/"));
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography component={"a"} className="flex-grow" href="/home">
+    <AppBar position="static" sx={{ mb: 5 }}>
+      <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Typography component="button" onClick={handleClickTitle}>
           Activity Monitoring
         </Typography>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handleClickSignOutBtn}
-        >
-          Sign Out
-        </Button>
+        {authContext?.user && (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleClickSignOutBtn}
+          >
+            Sign Out
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
