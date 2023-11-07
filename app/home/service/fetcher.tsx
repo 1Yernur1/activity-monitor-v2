@@ -1,5 +1,5 @@
 export const getAllActivitiesFromServer = async (token: string) => {
-  const url = "http://localhost:8080";
+  const url = "https://activity-monitoring-m950.onrender.com";
   return await fetch(`${url}/activities`, {
     headers: {
       "Authorization": `Bearer ${token}`,
