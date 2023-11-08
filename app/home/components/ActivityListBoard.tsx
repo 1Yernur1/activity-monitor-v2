@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { getAllActivitiesFromServer } from "../service/fetcher";
 import { GlobalLoadingSpinner } from "@/components/GlobalLoadingSpinner";
 import { ActivityModel } from "../model/ActivityModel";
+import { ActivityCard } from "./ActvityCard";
 
 export const ActivityListBoard = () => {
   const authContext = useContext(AuthContext);
@@ -31,11 +32,12 @@ export const ActivityListBoard = () => {
     return <GlobalLoadingSpinner />;
   }
 
-  return <div>
-    {activityList.map(activity => {
-      return (
-        activity.language
-      )
-    })}
-  </div>;
+  return (
+    <div>
+      {activityList.map((activity) => (
+        <ActivityCard activityData={activity} />
+      ))}
+      
+    </div>
+  );
 };
