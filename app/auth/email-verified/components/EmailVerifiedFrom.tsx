@@ -20,9 +20,9 @@ export const EmailVerifiedForm = () => {
         <Paper elevation={3} className="p-4 flex flex-col items-center">
           <EmailVerifiedFormAvatar />
           <FormTitle title="Email sent" />
-          <FormHelperText className="text-center text-base">
+          <p className="text-center text-base">
             Check your email and open the link we sent to continue
-          </FormHelperText>
+          </p>
           <ResetButton />
         </Paper>
       </Grow>
