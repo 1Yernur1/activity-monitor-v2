@@ -6,9 +6,9 @@ import Toolbar from "@mui/material/Toolbar/Toolbar";
 import Typography from "@mui/material/Typography/Typography";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useContext, useLayoutEffect } from "react";
+import { useContext } from "react";
 
-export const Header = ({
+export const HomeHeader = ({
   setShowActivityCreateModal,
 }: {
   setShowActivityCreateModal?: (isShow: boolean) => void;
@@ -33,6 +33,23 @@ export const Header = ({
         <Typography component="button" onClick={handleClickTitle}>
           Activity Monitoring
         </Typography>
+        <div className="flex gap-2">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleClickCreateActivityModal}
+          >
+            Create Activity
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            className="bg-white"
+            onClick={handleClickSignOutBtn}
+          >
+            Sign Out
+          </Button>
+        </div>
       </Toolbar>
     </AppBar>
   );

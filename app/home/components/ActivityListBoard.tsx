@@ -1,18 +1,19 @@
-import { AuthContext } from "@/context/AuthContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllActivitiesFromServer } from "../service/fetcher";
 import { GlobalLoadingSpinner } from "@/components/GlobalLoadingSpinner";
 import { ActivityModel } from "../model/ActivityModel";
 import { ActivityCard } from "./ActvityCard";
+import { Container, Typography } from "@mui/material";
+import { ActivityEditModal } from "./ActivityEditModal";
 
 export const ActivityListBoard = () => {
-  const authContext = useContext(AuthContext);
   const [loadingActivityList, setLoadingActivityList] = useState(true);
   const [activityList, setActivityList] = useState<ActivityModel[]>([]);
 
   useEffect(() => {
-    if (authContext?.user?.idToken && loadingActivityList) {
-      getAllActivitiesFromServer(authContext.user.idToken)
+    const token = localStorage.getItem("idToken");
+    if (token && loadingActivityList) {
+      getAllActivitiesFromServer(token)
         .then(onActivityListLoaded)
         .catch(onActivityListLoadError)
         .finally(() => setLoadingActivityList(false));
@@ -20,7 +21,6 @@ export const ActivityListBoard = () => {
   }, [loadingActivityList]);
 
   const onActivityListLoaded = (fetchedActivityList: ActivityModel[]) => {
-    console.log(fetchedActivityList);
     setActivityList(fetchedActivityList);
   };
 
@@ -33,11 +33,13 @@ export const ActivityListBoard = () => {
   }
 
   return (
-    <div>
-      {activityList.map((activity) => (
-        <ActivityCard activityData={activity} />
-      ))}
-      
-    </div>
+    <Container>
+      <Typography variant="h6" mb={"1rem"}>NEW</Typography>
+      <div className="flex flex-col gap-4">
+        {activityList.map((activity) => (
+          <ActivityCard activityData={activity} />
+        ))}
+      </div>
+    </Container>
   );
 };

@@ -34,6 +34,7 @@ export const SignInForm = () => {
     singInWithEmailAndPassword(email, password)
       .then((data: User) => {
         authContext?.setUser(data);
+        localStorage.setItem("idToken", data.idToken);
         router.push("/home");
       })
       .catch(() => setIsErrorSignIn(true))

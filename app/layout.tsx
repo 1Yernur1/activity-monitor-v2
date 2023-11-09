@@ -6,7 +6,10 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@mui/material";
-import { darkThemeWithResponsiveFontSizes, lightThemeWithResponsiveFontSizes } from "@/config/themes";
+import {
+  darkThemeWithResponsiveFontSizes,
+  lightThemeWithResponsiveFontSizes,
+} from "@/config/themes";
 
 export default function RootLayout({
   children,

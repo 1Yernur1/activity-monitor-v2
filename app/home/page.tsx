@@ -1,23 +1,24 @@
 "use client";
-import { Header } from "@/components/Header";
-import { Suspense, useContext, useLayoutEffect } from "react";
+import { Suspense, useState } from "react";
 import Loading from "./loading";
 import { ActivityListBoard } from "./components/ActivityListBoard";
-import { AuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
+import { ActivityCreateModal } from "./components/ActivityCreateDialog";
+import { HomeHeader } from "./components/HomeHeader";
 
 export default function HomePage() {
-  const authContext = useContext(AuthContext);
-  const router = useRouter();
-  
-  useLayoutEffect(() => {
-    if (!authContext?.user) router.push("/");
-  }, []);
+  const [showActivityCreateModal, setShowActivityCreateModal] = useState(false);
+
+  const handleCloseActivityCreateModal = () =>
+    setShowActivityCreateModal(false);
 
   return (
     <Suspense fallback={<Loading />}>
-      <Header />
+      <HomeHeader setShowActivityCreateModal={setShowActivityCreateModal} />
       <ActivityListBoard />
+      <ActivityCreateModal
+        showActivityCreateModal={showActivityCreateModal}
+        onCloseActivityCreateModal={handleCloseActivityCreateModal}
+      />
     </Suspense>
   );
 }

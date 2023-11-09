@@ -7,11 +7,6 @@ import Loading from "./loading";
 import { Header } from "@/components/Header";
 
 export default function SignInPage() {
-  const authContext = useContext(AuthContext);
-  const router = useRouter();
-  useLayoutEffect(() => {
-    if (authContext?.user) router.push("/home");
-  }, []);
   return (
     <Suspense fallback={<Loading />}>
       <Header />
