@@ -63,7 +63,6 @@ export const ActivityCard = ({
           </div>
           <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose}>
             <MenuItem onClick={handleClickEditActivity}>Edit</MenuItem>
-            <MenuItem onClick={() => {}}>Delete</MenuItem>
           </Menu>
           <div className="flex flex-col gap-1">
             <ActivityLanguage language={language} />
