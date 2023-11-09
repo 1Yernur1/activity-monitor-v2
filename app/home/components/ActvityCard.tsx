@@ -43,7 +43,10 @@ export const ActivityCard = ({
     setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const handleClickEditActivity = () => setShowActivityEditModal(true);
+  const handleClickEditActivity = () => {
+    setShowActivityEditModal(true);
+    handleClose();
+  };
   const handleCloseEditActivityModal = () => setShowActivityEditModal(false);
 
   return (

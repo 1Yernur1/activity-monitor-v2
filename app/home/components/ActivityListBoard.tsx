@@ -4,7 +4,6 @@ import { GlobalLoadingSpinner } from "@/components/GlobalLoadingSpinner";
 import { ActivityModel } from "../model/ActivityModel";
 import { ActivityCard } from "./ActvityCard";
 import { Container, Typography } from "@mui/material";
-import { ActivityEditModal } from "./ActivityEditModal";
 
 export const ActivityListBoard = () => {
   const [loadingActivityList, setLoadingActivityList] = useState(true);
