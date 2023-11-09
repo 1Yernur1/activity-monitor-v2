@@ -33,11 +33,14 @@ export const ActivityListBoard = () => {
 
   return (
     <Container>
-      <Typography variant="h6" mb={"1rem"}>NEW</Typography>
+      <Typography variant="h6" mb={"1rem"}>
+        Backlog
+      </Typography>
       <div className="flex flex-col gap-4">
-        {activityList.map((activity) => (
-          <ActivityCard activityData={activity} />
-        ))}
+        {activityList &&
+          activityList.map((activity) => (
+            <ActivityCard activityData={activity} />
+          ))}
       </div>
     </Container>
   );
