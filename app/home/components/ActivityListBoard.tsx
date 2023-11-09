@@ -37,7 +37,7 @@ export const ActivityListBoard = () => {
         Backlog
       </Typography>
       <div className="flex flex-col gap-4">
-        {activityList &&
+        {activityList.length > 0 &&
           activityList.map((activity) => (
             <ActivityCard activityData={activity} />
           ))}
