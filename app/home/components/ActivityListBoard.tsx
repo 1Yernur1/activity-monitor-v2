@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllActivitiesFromServer } from "../service/fetcher";
 import { GlobalLoadingSpinner } from "@/components/GlobalLoadingSpinner";
 import { ActivityModel } from "../model/ActivityModel";
-import { ActivityCard } from "./ActvityCard";
-import { Container, Typography } from "@mui/material";
+import { ActivityColumn } from "./ActivityColumn";
 
 export const ActivityListBoard = () => {
   const [loadingActivityList, setLoadingActivityList] = useState(true);
@@ -32,16 +31,45 @@ export const ActivityListBoard = () => {
   }
 
   return (
-    <Container>
-      <Typography variant="h6" mb={"1rem"}>
-        Backlog
-      </Typography>
-      <div className="flex flex-col gap-4">
-        {activityList.length > 0 &&
-          activityList.map((activity) => (
-            <ActivityCard activityData={activity} />
-          ))}
+      <div className="overflow-auto h-full col-start-2 col-span-full">
+        <div className="min-w-[112.5rem] grid grid-cols-6 gap-x-2 px-4">
+          <ActivityColumn
+            activityList={activityList.filter(
+              (activity) => activity.status === "NEW"
+            )}
+            activityStatus="Backlog"
+          />
+          <ActivityColumn
+            activityList={activityList.filter(
+              (activity) => activity.status === "TODO"
+            )}
+            activityStatus="To do"
+          />
+          <ActivityColumn
+            activityList={activityList.filter(
+              (activity) => activity.status === "IN_PROGRESS"
+            )}
+            activityStatus="In Progress"
+          />
+          <ActivityColumn
+            activityList={activityList.filter(
+              (activity) => activity.status === "IN_PROGRESS_FROM_REVIEW"
+            )}
+            activityStatus="In progress from review"
+          />
+          <ActivityColumn
+            activityList={activityList.filter(
+              (activity) => activity.status === "REVIEW"
+            )}
+            activityStatus="Review"
+          />
+          <ActivityColumn
+            activityList={activityList.filter(
+              (activity) => activity.status === "DONE"
+            )}
+            activityStatus="Done"
+          />
+        </div>
       </div>
-    </Container>
   );
 };

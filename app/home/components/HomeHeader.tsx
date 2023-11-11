@@ -28,7 +28,7 @@ export const HomeHeader = ({
   };
 
   return (
-    <AppBar position="static" sx={{ mb: 5 }}>
+    <AppBar position="absolute">
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Typography component="button" onClick={handleClickTitle}>
           Activity Monitoring

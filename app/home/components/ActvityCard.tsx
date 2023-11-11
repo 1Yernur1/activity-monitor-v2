@@ -15,6 +15,7 @@ import { ActivityTranslator } from "../statless-components/ActivityTranslator";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import { useState } from "react";
 import { ActivityEditModal } from "./ActivityEditModal";
+import { ChangeActivityStatusModal } from "./ChangeActivityStatusModal";
 
 export const ActivityCard = ({
   activityData,
@@ -38,6 +39,8 @@ export const ActivityCard = ({
   const isOpen = Boolean(anchorEl);
 
   const [showActivityEditModal, setShowActivityEditModal] = useState(false);
+  const [showChangeStatusActivityModal, setShowChangeStatusActivityModal] =
+    useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
@@ -48,6 +51,14 @@ export const ActivityCard = ({
     handleClose();
   };
   const handleCloseEditActivityModal = () => setShowActivityEditModal(false);
+
+  const handleChangeActivityStatus = () => {
+    setShowChangeStatusActivityModal(true);
+    handleClose();
+  };
+
+  const handleCloseChangeActivityModal = () =>
+    setShowChangeStatusActivityModal(false);
 
   return (
     <>
@@ -63,6 +74,9 @@ export const ActivityCard = ({
           </div>
           <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose}>
             <MenuItem onClick={handleClickEditActivity}>Edit</MenuItem>
+            <MenuItem onClick={handleChangeActivityStatus}>
+              Change Status
+            </MenuItem>
           </Menu>
           <div className="flex flex-col gap-1">
             <ActivityLanguage language={language} />
@@ -77,6 +91,12 @@ export const ActivityCard = ({
         isOpenModal={showActivityEditModal}
         onCloseActivityModal={handleCloseEditActivityModal}
         activity={activityData}
+      />
+      <ChangeActivityStatusModal
+        showChangeStatusActivityModal={showChangeStatusActivityModal}
+        onCloseChangeActivityModal={handleCloseChangeActivityModal}
+        activityStatus={activityData.status}
+        activityId={activityData.id}
       />
     </>
   );

@@ -21,7 +21,7 @@ export default function RootLayout({
       <head>
         <title>Activity Monitor</title>
       </head>
-      <body>
+      <body className="h-screen">
         <ThemeProvider theme={lightThemeWithResponsiveFontSizes}>
           <AuthProvider>{children}</AuthProvider>
         </ThemeProvider>
