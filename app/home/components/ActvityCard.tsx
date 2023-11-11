@@ -42,19 +42,20 @@ export const ActivityCard = ({
   const [showChangeStatusActivityModal, setShowChangeStatusActivityModal] =
     useState(false);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
-    setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
+  const handleClickHorizontalMenuIcon = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => setAnchorEl(event.currentTarget);
+  const handleCloseActivityMenu = () => setAnchorEl(null);
 
   const handleClickEditActivity = () => {
     setShowActivityEditModal(true);
-    handleClose();
+    handleCloseActivityMenu();
   };
   const handleCloseEditActivityModal = () => setShowActivityEditModal(false);
 
   const handleChangeActivityStatus = () => {
     setShowChangeStatusActivityModal(true);
-    handleClose();
+    handleCloseActivityMenu();
   };
 
   const handleCloseChangeActivityModal = () =>
@@ -68,11 +69,15 @@ export const ActivityCard = ({
             <Typography variant="h6" fontWeight={700}>
               {title}
             </Typography>
-            <IconButton onClick={handleClick}>
+            <IconButton onClick={handleClickHorizontalMenuIcon}>
               <MoreHorizOutlinedIcon />
             </IconButton>
           </div>
-          <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose}>
+          <Menu
+            open={isOpen}
+            anchorEl={anchorEl}
+            onClose={handleCloseActivityMenu}
+          >
             <MenuItem onClick={handleClickEditActivity}>Edit</MenuItem>
             <MenuItem onClick={handleChangeActivityStatus}>
               Change Status

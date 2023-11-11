@@ -41,8 +41,8 @@ export const ActivityCreateModal = ({
       body: JSON.stringify(body),
     })
       .then(() => {
-        window.location.reload();
         onCloseActivityCreateModal();
+        window.location.reload();
       })
       .catch(() => {})
       .finally(() => {

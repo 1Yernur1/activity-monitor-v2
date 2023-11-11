@@ -21,6 +21,7 @@ export const PasswordInputField = ({
     <FormControl margin="normal" fullWidth required>
       <InputLabel error={isErrorPasswordField}>{label}</InputLabel>
       <OutlinedInput
+        autoComplete=""
         label={label}
         type={isPasswordVisible ? "text" : "password"}
         error={isErrorPasswordField}

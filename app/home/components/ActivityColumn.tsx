@@ -19,7 +19,7 @@ export const ActivityColumn = ({
       <div className="flex flex-col gap-4">
         {activityList.length > 0 &&
           activityList.map((activity) => (
-            <ActivityCard activityData={activity} />
+            <ActivityCard key={activity.id} activityData={activity} />
           ))}
       </div>
     </div>

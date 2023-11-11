@@ -3,6 +3,7 @@ import { getAllActivitiesFromServer } from "../service/fetcher";
 import { GlobalLoadingSpinner } from "@/components/GlobalLoadingSpinner";
 import { ActivityModel } from "../model/ActivityModel";
 import { ActivityColumn } from "./ActivityColumn";
+import { Typography } from "@mui/material";
 
 export const ActivityListBoard = () => {
   const [loadingActivityList, setLoadingActivityList] = useState(true);
@@ -16,7 +17,7 @@ export const ActivityListBoard = () => {
         .catch(onActivityListLoadError)
         .finally(() => setLoadingActivityList(false));
     }
-  }, [loadingActivityList]);
+  }, [loadingActivityList, activityList]);
 
   const onActivityListLoaded = (fetchedActivityList: ActivityModel[]) => {
     setActivityList(fetchedActivityList);
@@ -31,7 +32,11 @@ export const ActivityListBoard = () => {
   }
 
   return (
-      <div className="overflow-auto h-full col-start-2 col-span-full">
+    <div className="overflow-auto h-full col-start-2 col-span-full">
+      <Typography variant="h5" fontWeight={700} px={2} mb={1}>
+        {activityList.length > 0 && activityList[0].projectName}
+      </Typography>
+      {activityList.length > 0 && (
         <div className="min-w-[112.5rem] grid grid-cols-6 gap-x-2 px-4">
           <ActivityColumn
             activityList={activityList.filter(
@@ -70,6 +75,7 @@ export const ActivityListBoard = () => {
             activityStatus="Done"
           />
         </div>
-      </div>
+      )}
+    </div>
   );
 };

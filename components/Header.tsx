@@ -30,7 +30,7 @@ export const Header = ({
   return (
     <AppBar position="static" sx={{ mb: 5 }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Typography component="button" onClick={handleClickTitle}>
+        <Typography component="button" onClick={handleClickTitle} fontSize={20} fontWeight={900}>
           Activity Monitoring
         </Typography>
       </Toolbar>

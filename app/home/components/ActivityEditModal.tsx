@@ -8,7 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import { ActivityModel } from "../model/ActivityModel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ManagerModel } from "../model/ManagerModel";
 
 export const ActivityEditModal = ({
   isOpenModal,
@@ -27,6 +28,20 @@ export const ActivityEditModal = ({
   const [activityTranslator, setActivityTranslator] = useState(
     activity.translator.id
   );
+
+  const [translatorsList, setTranslatorsList] = useState<ManagerModel[]>([]);
+
+  useEffect(() => {
+    fetch("https://activity-monitoring-m950.onrender.com/users/translators", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setTranslatorsList(data))
+      .catch(() => setTranslatorsList([]));
+  }, []);
 
   const languages = [
     {
@@ -47,9 +62,6 @@ export const ActivityEditModal = ({
     },
   ];
 
-  const translators = [
-    { id: "XH4Powot0ve0fiCfi2B7197wuTD2", fullName: "Aldiyar Issenbayev" },
-  ];
   const [isEditActivityButtonDisabled, setIsEditActivityButtonDisabled] =
     useState(false);
 
@@ -76,11 +88,12 @@ export const ActivityEditModal = ({
         window.location.reload();
         onCloseActivityModal();
       })
-      .catch(() => {})
+      .catch((error) => console.log(error))
       .finally(() => {
         setIsEditActivityButtonDisabled(false);
       });
   };
+
   return (
     <Dialog open={isOpenModal} onClose={onCloseActivityModal} fullWidth={true}>
       <DialogTitle>Edit Activity</DialogTitle>
@@ -125,12 +138,10 @@ export const ActivityEditModal = ({
           )}
         />
         <Autocomplete
-          options={translators}
-          getOptionLabel={(option) => option.fullName}
-          value={translators.find(
-            (translator) =>
-              translator.fullName ===
-              `${activity.translator.firstName} ${activity.translator.lastName}`
+          options={translatorsList}
+          getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+          value={translatorsList.find(
+            (translator) => translator.id === activity.translator.id
           )}
           onChange={(e, newValue) => {
             if (newValue?.id) setActivityTranslator(newValue.id);

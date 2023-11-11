@@ -30,7 +30,7 @@ export const HomeHeader = ({
   return (
     <AppBar position="absolute">
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Typography component="button" onClick={handleClickTitle}>
+        <Typography component="button" onClick={handleClickTitle} fontSize={20} fontWeight={900}>
           Activity Monitoring
         </Typography>
         <div className="flex gap-2">
