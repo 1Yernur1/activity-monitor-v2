@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { ProjectEditModal } from "./ProjectEditModal";
 import { ProjectCreateModal } from "./ProjectCreateModal";
 import { ActivityModel } from "../model/ActivityModel";
+import { ManagerModel } from "../model/ManagerModel";
 
 export const ProjectsSideBar = ({
   onClickSelectProjectActivitiesList,
@@ -26,6 +27,8 @@ export const ProjectsSideBar = ({
   const [showProjectEditModal, setShowProjectEditModal] = useState(false);
   const [showProjectCreateModal, setShowProjectCreateModal] = useState(false);
 
+  const [chiefEditorsList, setChiefEditorsList] = useState<ManagerModel[]>([]);
+
   useEffect(() => {
     fetch("https://activity-monitoring-m950.onrender.com/projects", {
       headers: {
@@ -35,6 +38,19 @@ export const ProjectsSideBar = ({
       .then((response) => response.json())
       .then((data) => setProjectsList(data))
       .catch((error) => console.log(error));
+
+    fetch(
+      "https://activity-monitoring-m950.onrender.com/users/chiefEditors/free",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => setChiefEditorsList(data))
+      .catch(() => setChiefEditorsList([]));
   }, []);
 
   const handleClickHorizontalMenuIcon = (
@@ -110,14 +126,17 @@ export const ProjectsSideBar = ({
               </div>
             ))}
         </Stack>
-        <div className="flex justify-end">
-          <IconButton
-            color="secondary"
-            onClick={handleClickOpenProjectCreateModal}
-          >
-            <AddCircleOutlineOutlined />
-          </IconButton>
-        </div>
+        {chiefEditorsList.length > 0 && (
+          <div className="flex justify-end">
+            <IconButton
+              color="secondary"
+              onClick={handleClickOpenProjectCreateModal}
+            >
+              <AddCircleOutlineOutlined />
+            </IconButton>
+          </div>
+        )}
+
         <ProjectCreateModal
           showProjectCreateModal={showProjectCreateModal}
           onCloseProjectCreateModal={handleCloseProjectCreateModal}
