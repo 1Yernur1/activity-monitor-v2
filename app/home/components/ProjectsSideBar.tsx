@@ -50,7 +50,7 @@ export const ProjectsSideBar = ({
     handleCloseActionMenu();
   };
 
-  const handleCloseProjectCreateModal = () => setShowProjectEditModal(false);
+  const handleCloseProjectCreateModal = () => setShowProjectCreateModal(false);
 
   const handleClickOpenProjectCreateModal = () =>
     setShowProjectCreateModal(true);
@@ -76,7 +76,7 @@ export const ProjectsSideBar = ({
   };
 
   return (
-    <div className="bg-black text-white col-start-1 col-end-2">
+    <div className="bg-black text-white col-start-1 col-end-2 row-span-full">
       <div className="py-1 px-6">
         <Stack>
           {projectList.length > 0 &&
