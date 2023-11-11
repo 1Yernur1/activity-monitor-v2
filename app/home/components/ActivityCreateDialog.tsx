@@ -12,9 +12,11 @@ import { useState } from "react";
 export const ActivityCreateModal = ({
   showActivityCreateModal,
   onCloseActivityCreateModal,
+  projectId,
 }: {
   showActivityCreateModal: boolean;
   onCloseActivityCreateModal: () => void;
+  projectId: number;
 }) => {
   const [activityTitle, setActivityTitle] = useState("");
   const [activityLanguage, setActivityLanguage] = useState("");
@@ -26,7 +28,7 @@ export const ActivityCreateModal = ({
   const handleClickCreateActivityButton = () => {
     setIsCreateActivityButtonDisabled(true);
     const body = {
-      projectId: 1,
+      projectId: projectId,
       title: activityTitle,
       language: activityLanguage,
       targetLanguage: activityTargetLanguage,

@@ -6,8 +6,19 @@ import { IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ProjectEditModal } from "./ProjectEditModal";
 import { ProjectCreateModal } from "./ProjectCreateModal";
+import { ActivityModel } from "../model/ActivityModel";
 
-export const ProjectsSideBar = () => {
+export const ProjectsSideBar = ({
+  onClickSelectProjectActivitiesList,
+  onSelectProjectId,
+  onIsLoadingActivitiesList,
+}: {
+  onClickSelectProjectActivitiesList: (
+    selectedActivityList: ActivityModel[]
+  ) => void;
+  onSelectProjectId: (selectedProjectId: number) => void;
+  onIsLoadingActivitiesList: (isLoading: boolean) => void;
+}) => {
   const [projectList, setProjectsList] = useState([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
@@ -41,7 +52,28 @@ export const ProjectsSideBar = () => {
 
   const handleCloseProjectCreateModal = () => setShowProjectEditModal(false);
 
-  const handleClickOpenProjectCreateModal = () => setShowProjectCreateModal(true);
+  const handleClickOpenProjectCreateModal = () =>
+    setShowProjectCreateModal(true);
+
+  const handleClickProject = (selectedId: number) => {
+    onIsLoadingActivitiesList(true);
+    fetch(
+      `https://activity-monitoring-m950.onrender.com/activities/project/${selectedId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => onClickSelectProjectActivitiesList(data))
+      .catch((err) => onClickSelectProjectActivitiesList([]))
+      .finally(() => {
+        onSelectProjectId(selectedId);
+        onIsLoadingActivitiesList(false);
+      });
+  };
 
   return (
     <div className="bg-black text-white col-start-1 col-end-2">
@@ -51,7 +83,12 @@ export const ProjectsSideBar = () => {
             projectList.map((project: any) => (
               <div key={project.id}>
                 <div className="flex justify-between items-center">
-                  <Typography>{project.name}</Typography>
+                  <Typography
+                    component={"button"}
+                    onClick={(e) => handleClickProject(project.id)}
+                  >
+                    {project.name}
+                  </Typography>
                   <IconButton onClick={handleClickHorizontalMenuIcon}>
                     <MoreHorizOutlined sx={{ color: "white" }} />
                   </IconButton>
