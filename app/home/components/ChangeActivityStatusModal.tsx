@@ -7,7 +7,8 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
 export const ChangeActivityStatusModal = ({
   showChangeStatusActivityModal,
@@ -26,14 +27,27 @@ export const ChangeActivityStatusModal = ({
   ] = useState(false);
   const [status, setStatus] = useState(activityStatus);
 
-  const statusList = [
+  const [statusList, setStatusList] = useState([
     { label: "Backlog", value: "NEW" },
     { label: "To do", value: "TODO" },
     { label: "In Progress", value: "IN_PROGRESS" },
     { label: "In progress from review", value: "IN_PROGRESS_FROM_REVIEW" },
     { label: "Review", value: "REVIEW" },
     { label: "Done", value: "DONE" },
-  ];
+  ]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("idToken");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      if ((decodedToken as any).custom_claims[0] === "PROJECT_MANAGER") {
+        setStatusList([
+          { label: "Backlog", value: "NEW" },
+          { label: "To do", value: "TODO" },
+        ]);
+      }
+    }
+  }, []);
 
   const handleSaveActivityStatus = () => {
     setIsSaveActivityStatusButtonDisabled(true);
