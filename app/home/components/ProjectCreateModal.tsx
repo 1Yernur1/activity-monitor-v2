@@ -111,7 +111,7 @@ export const ProjectCreateModal = ({
           className="bg-black"
           onClick={handleClickProjectCreateButton}
         >
-          Edit
+          Create
         </Button>
       </DialogActions>
     </Dialog>
