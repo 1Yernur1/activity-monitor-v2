@@ -14,15 +14,16 @@ export const ReminderModal = () => {
     const checkTime = () => {
       const currentTime = new Date();
       const targetTime = new Date();
-      targetTime.setHours(20, 25, 0);
+      targetTime.setHours(20, 30, 0);
       if (
         currentTime.getHours() === targetTime.getHours() &&
-        currentTime.getMinutes() === targetTime.getMinutes()
+        currentTime.getMinutes() === targetTime.getMinutes() &&
+        currentTime.getSeconds() === targetTime.getSeconds()
       ) {
         setShowReminder(true);
       }
     };
-    const interval = setInterval(checkTime, 60000);
+    const interval = setInterval(checkTime, 1000);
     return () => clearInterval(interval);
   }, []);
   return (
