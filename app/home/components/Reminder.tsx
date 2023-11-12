@@ -14,7 +14,7 @@ export const ReminderModal = () => {
     const checkTime = () => {
       const currentTime = new Date();
       const targetTime = new Date();
-      targetTime.setHours(20, 30, 0);
+      targetTime.setHours(17, 30, 30);
       if (
         currentTime.getHours() === targetTime.getHours() &&
         currentTime.getMinutes() === targetTime.getMinutes() &&
