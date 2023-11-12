@@ -32,6 +32,7 @@ export const ActivityCreateModal = ({
   const [translatorsList, setTranslatorsList] = useState<ManagerModel[]>([]);
   const [loading, setLoading] = useState(false);
 
+
   useEffect(() => {
     setLoading(true);
     fetch("https://activity-monitoring-m950.onrender.com/users/translators", {

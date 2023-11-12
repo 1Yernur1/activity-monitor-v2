@@ -8,13 +8,16 @@ import { ProjectsSideBar } from "./components/ProjectsSideBar";
 import { jwtDecode } from "jwt-decode";
 import { ActivityModel } from "./model/ActivityModel";
 import { ProjectModel } from "./model/ProjectModel";
+import { ReminderModal } from "./components/Reminder";
 
 export default function HomePage() {
   const [showActivityCreateModal, setShowActivityCreateModal] = useState(false);
   const [activitiesList, setActivitiesList] = useState<ActivityModel[]>([]);
   const [projectId, setProjectId] = useState(1);
   const [isLoadingActivitiesList, setIsLoadingActivitiesList] = useState(false);
-  const [projectData, setProjectData] = useState<ProjectModel>({} as ProjectModel);
+  const [projectData, setProjectData] = useState<ProjectModel>(
+    {} as ProjectModel
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("idToken");
@@ -87,6 +90,7 @@ export default function HomePage() {
         onCloseActivityCreateModal={handleCloseActivityCreateModal}
         projectId={projectId}
       />
+      <ReminderModal />
     </Suspense>
   );
 }
