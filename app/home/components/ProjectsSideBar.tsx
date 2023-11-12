@@ -8,26 +8,31 @@ import { ProjectEditModal } from "./ProjectEditModal";
 import { ProjectCreateModal } from "./ProjectCreateModal";
 import { ActivityModel } from "../model/ActivityModel";
 import { ManagerModel } from "../model/ManagerModel";
+import { ProjectModel } from "../model/ProjectModel";
+import { useRouter } from "next/navigation";
+import { ProjectAddExtraChiefEditorModal } from "./ProjectAddExtraChiefEditor";
 
 export const ProjectsSideBar = ({
   onClickSelectProjectActivitiesList,
   onSelectProjectId,
   onIsLoadingActivitiesList,
+  onSelectProjectData,
 }: {
   onClickSelectProjectActivitiesList: (
     selectedActivityList: ActivityModel[]
   ) => void;
   onSelectProjectId: (selectedProjectId: number) => void;
   onIsLoadingActivitiesList: (isLoading: boolean) => void;
+  onSelectProjectData: (selectedProjectData: ProjectModel) => void;
 }) => {
   const [projectList, setProjectsList] = useState([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
-
   const [showProjectEditModal, setShowProjectEditModal] = useState(false);
   const [showProjectCreateModal, setShowProjectCreateModal] = useState(false);
-
   const [chiefEditorsList, setChiefEditorsList] = useState<ManagerModel[]>([]);
+  const [isOpenAddExtraChiefEditorModal, setIsOpenAddExtraChiefEditorModal] =
+    useState(false);
 
   useEffect(() => {
     fetch("https://activity-monitoring-m950.onrender.com/projects", {
@@ -89,6 +94,26 @@ export const ProjectsSideBar = ({
         onSelectProjectId(selectedId);
         onIsLoadingActivitiesList(false);
       });
+    fetch(
+      `https://activity-monitoring-m950.onrender.com/projects/${selectedId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => onSelectProjectData(data))
+      .catch((err) => onSelectProjectData({} as ProjectModel));
+  };
+
+  const handleCloseAddExtraChiefEditorModal = () =>
+    setIsOpenAddExtraChiefEditorModal(false);
+
+  const handleClickAddExtraChiefEditorAction = () => {
+    setIsOpenAddExtraChiefEditorModal(true);
+    handleCloseActionMenu();
   };
 
   return (
@@ -117,11 +142,23 @@ export const ProjectsSideBar = ({
                   <MenuItem onClick={handleClickProjectEditAction}>
                     Edit
                   </MenuItem>
+                  <MenuItem onClick={handleClickAddExtraChiefEditorAction}>
+                    Add Extra Chief Editor
+                  </MenuItem>
                 </Menu>
                 <ProjectEditModal
                   isOpenProjectEditModal={showProjectEditModal}
                   onCloseProjectEditModal={handleCloseProjectEditModal}
                   projectData={project}
+                />
+                <ProjectAddExtraChiefEditorModal
+                  isOpenAddExtraChiefEditorModal={
+                    isOpenAddExtraChiefEditorModal
+                  }
+                  onCloseAddExtraChiefEditorModal={
+                    handleCloseAddExtraChiefEditorModal
+                  }
+                  projectId={project.id}
                 />
               </div>
             ))}

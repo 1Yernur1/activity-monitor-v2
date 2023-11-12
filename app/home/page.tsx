@@ -7,12 +7,14 @@ import { HomeHeader } from "./components/HomeHeader";
 import { ProjectsSideBar } from "./components/ProjectsSideBar";
 import { jwtDecode } from "jwt-decode";
 import { ActivityModel } from "./model/ActivityModel";
+import { ProjectModel } from "./model/ProjectModel";
 
 export default function HomePage() {
   const [showActivityCreateModal, setShowActivityCreateModal] = useState(false);
   const [activitiesList, setActivitiesList] = useState<ActivityModel[]>([]);
   const [projectId, setProjectId] = useState(1);
   const [isLoadingActivitiesList, setIsLoadingActivitiesList] = useState(false);
+  const [projectData, setProjectData] = useState<ProjectModel>({} as ProjectModel);
 
   useEffect(() => {
     const token = localStorage.getItem("idToken");
@@ -35,6 +37,19 @@ export default function HomePage() {
       .finally(() => {
         setIsLoadingActivitiesList(false);
       });
+    fetch(
+      `https://activity-monitoring-m950.onrender.com/projects/${projectId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => setProjectData(data))
+      .catch((err) => setProjectData({} as ProjectModel))
+      .finally(() => setIsLoadingActivitiesList(false));
   }, []);
   const handleCloseActivityCreateModal = () =>
     setShowActivityCreateModal(false);
@@ -48,6 +63,9 @@ export default function HomePage() {
   const handleIsLoadingActivitiesList = (isLoading: boolean) =>
     setIsLoadingActivitiesList(isLoading);
 
+  const handleSelectProjectData = (selectedProjectData: ProjectModel) =>
+    setProjectData(selectedProjectData);
+
   return (
     <Suspense fallback={<Loading />}>
       <HomeHeader setShowActivityCreateModal={setShowActivityCreateModal} />
@@ -56,10 +74,12 @@ export default function HomePage() {
           onClickSelectProjectActivitiesList={handleSetActivitiesList}
           onSelectProjectId={handleSelectProjectId}
           onIsLoadingActivitiesList={handleIsLoadingActivitiesList}
+          onSelectProjectData={handleSelectProjectData}
         />
         <ActivityListBoard
           activitiesList={activitiesList}
           isLoadingActivitiesList={isLoadingActivitiesList}
+          projectData={projectData}
         />
       </div>
       <ActivityCreateModal

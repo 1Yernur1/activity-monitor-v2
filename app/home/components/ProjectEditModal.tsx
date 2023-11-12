@@ -36,8 +36,6 @@ export const ProjectEditModal = ({
 
   const [chiefEditorsList, setChiefEditorsList] = useState<ManagerModel[]>([]);
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     fetch(
       "https://activity-monitoring-m950.onrender.com/users/projectManagers",
@@ -124,7 +122,15 @@ export const ProjectEditModal = ({
             <TextField {...params} variant="standard" label="Select Manager" />
           )}
         />
-        <Autocomplete
+        <TextField
+          label="Chief Editor"
+          value={`${projectData.chiefEditor.firstName} ${projectData.chiefEditor.lastName}`}
+          disabled
+          margin="dense"
+          variant="standard"
+          fullWidth
+        />
+        {/* <Autocomplete
           options={chiefEditorsList}
           value={chiefEditorsList.find(
             (chiefEditor) => chiefEditor.id === projectData.chiefEditor.id
@@ -137,10 +143,10 @@ export const ProjectEditModal = ({
             <TextField
               {...params}
               variant="standard"
-              label="Select Chief Editor"
+              label="Add Chief Editor"
             />
           )}
-        />
+        /> */}
       </DialogContent>
       <DialogActions>
         <Button onClick={onCloseProjectEditModal}>Cancel</Button>

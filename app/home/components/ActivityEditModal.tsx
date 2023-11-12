@@ -10,6 +10,8 @@ import {
 import { ActivityModel } from "../model/ActivityModel";
 import { useEffect, useState } from "react";
 import { ManagerModel } from "../model/ManagerModel";
+import { listOfLanguages } from "../service/languages";
+import { GlobalLoadingSpinner } from "@/components/GlobalLoadingSpinner";
 
 export const ActivityEditModal = ({
   isOpenModal,
@@ -28,10 +30,13 @@ export const ActivityEditModal = ({
   const [activityTranslator, setActivityTranslator] = useState(
     activity.translator.id
   );
-
   const [translatorsList, setTranslatorsList] = useState<ManagerModel[]>([]);
+  const [languagesList, setLanguagesList] = useState(listOfLanguages);
+  const [targetLanguageList, setTargetLanguageList] = useState(listOfLanguages);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("https://activity-monitoring-m950.onrender.com/users/translators", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("idToken")}`,
@@ -40,27 +45,9 @@ export const ActivityEditModal = ({
     })
       .then((response) => response.json())
       .then((data) => setTranslatorsList(data))
-      .catch(() => setTranslatorsList([]));
+      .catch(() => setTranslatorsList([]))
+      .finally(() => setLoading(false));
   }, []);
-
-  const languages = [
-    {
-      label: "English",
-      value: "EN",
-    },
-    {
-      label: "Russian",
-      value: "RU",
-    },
-    {
-      label: "French",
-      value: "FN",
-    },
-    {
-      label: "Kazakh",
-      value: "KZ",
-    },
-  ];
 
   const [isEditActivityButtonDisabled, setIsEditActivityButtonDisabled] =
     useState(false);
@@ -94,78 +81,96 @@ export const ActivityEditModal = ({
       });
   };
 
+  const renderDialogContent = () => {
+    return (
+      <>
+        <DialogTitle>Edit Activity</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Title"
+            type="text"
+            margin="dense"
+            variant="standard"
+            fullWidth
+            value={activityTitle}
+            onChange={(e) => setActivityTitle(e.target.value)}
+          />
+          <Autocomplete
+            options={languagesList.filter(
+              (language) => language.value !== activityTargetLanguage
+            )}
+            value={languagesList.find(
+              (language) => language.value === activityLanguage
+            )}
+            getOptionLabel={(option) => option.label}
+            onChange={(e, newValue) => {
+              if (newValue?.value) setActivityLanguage(newValue.value);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                label="Select Language"
+              />
+            )}
+          />
+          <Autocomplete
+            options={targetLanguageList.filter(
+              (language) => language.value !== activityLanguage
+            )}
+            value={targetLanguageList.find(
+              (language) => language.value === activityTargetLanguage
+            )}
+            getOptionLabel={(option) => option.label}
+            onChange={(e, newValue) => {
+              if (newValue?.value) setActivityTargetLanguage(newValue.value);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                label="Select Target Language"
+              />
+            )}
+          />
+          <Autocomplete
+            options={translatorsList}
+            getOptionLabel={(option) =>
+              `${option.firstName} ${option.lastName}`
+            }
+            value={translatorsList.find(
+              (translator) => translator.id === activity.translator.id
+            )}
+            onChange={(e, newValue) => {
+              if (newValue?.id) setActivityTranslator(newValue.id);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                label="Select Translator"
+              />
+            )}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onCloseActivityModal}>Cancel</Button>
+          <Button
+            disabled={isEditActivityButtonDisabled}
+            onClick={handleClickEditActivityButton}
+            variant="contained"
+            className="bg-black"
+          >
+            Edit
+          </Button>
+        </DialogActions>
+      </>
+    );
+  };
+
   return (
     <Dialog open={isOpenModal} onClose={onCloseActivityModal} fullWidth={true}>
-      <DialogTitle>Edit Activity</DialogTitle>
-      <DialogContent>
-        <TextField
-          label="Title"
-          type="text"
-          margin="dense"
-          variant="standard"
-          fullWidth
-          value={activityTitle}
-          onChange={(e) => setActivityTitle(e.target.value)}
-        />
-        <Autocomplete
-          options={languages}
-          value={languages.find(
-            (language) => language.value === activityLanguage
-          )}
-          getOptionLabel={(option) => option.label}
-          onChange={(e, newValue) => {
-            if (newValue?.value) setActivityLanguage(newValue.value);
-          }}
-          renderInput={(params) => (
-            <TextField {...params} variant="standard" label="Select Language" />
-          )}
-        />
-        <Autocomplete
-          options={languages}
-          value={languages.find(
-            (language) => language.value === activityTargetLanguage
-          )}
-          getOptionLabel={(option) => option.label}
-          onChange={(e, newValue) => {
-            if (newValue?.value) setActivityTargetLanguage(newValue.value);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="standard"
-              label="Select Target Language"
-            />
-          )}
-        />
-        <Autocomplete
-          options={translatorsList}
-          getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-          value={translatorsList.find(
-            (translator) => translator.id === activity.translator.id
-          )}
-          onChange={(e, newValue) => {
-            if (newValue?.id) setActivityTranslator(newValue.id);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="standard"
-              label="Select Translator"
-            />
-          )}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onCloseActivityModal}>Cancel</Button>
-        <Button
-          disabled={isEditActivityButtonDisabled}
-          onClick={handleClickEditActivityButton}
-          variant="contained"
-          className="bg-black"
-        >
-          Edit
-        </Button>
-      </DialogActions>
+      {loading ? <GlobalLoadingSpinner /> : renderDialogContent()}
     </Dialog>
   );
 };
