@@ -87,7 +87,7 @@ export const ActivityCard = ({
             <ActivityLanguage language={language} />
             <ActivityTargetLanguage targetLanguage={targetLanguage} />
             <ActivityDate description="Created Date" date={createdAt} />
-            <ActivityDate description="Updated Date" date={updatedAt} />
+            {/* <ActivityDate description="Updated Date" date={updatedAt} /> */}
             <ActivityTranslator firstName={firstName} lastName={lastName} />
           </div>
         </CardContent>

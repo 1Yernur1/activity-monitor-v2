@@ -1,6 +1,4 @@
-import { auth } from "@/config/firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth/cordova";
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 
 export interface User {
   displayName: string;

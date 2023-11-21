@@ -33,6 +33,8 @@ export const ProjectsSideBar = ({
   const [chiefEditorsList, setChiefEditorsList] = useState<ManagerModel[]>([]);
   const [isOpenAddExtraChiefEditorModal, setIsOpenAddExtraChiefEditorModal] =
     useState(false);
+  const [selectedProjectData, setSelectedProjectData] =
+    useState<ProjectModel>();
 
   useEffect(() => {
     fetch("https://activity-monitoring-m950.onrender.com/projects", {
@@ -56,6 +58,15 @@ export const ProjectsSideBar = ({
       .then((response) => response.json())
       .then((data) => setChiefEditorsList(data))
       .catch(() => setChiefEditorsList([]));
+    fetch(`https://activity-monitoring-m950.onrender.com/projects/1`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setSelectedProjectData(data))
+      .catch((err) => console.log(err));
   }, []);
 
   const handleClickHorizontalMenuIcon = (
@@ -130,36 +141,15 @@ export const ProjectsSideBar = ({
                   >
                     {project.name}
                   </Typography>
-                  <IconButton onClick={handleClickHorizontalMenuIcon}>
+                  <IconButton
+                    onClick={(e) => {
+                      handleClickHorizontalMenuIcon(e);
+                      setSelectedProjectData(project);
+                    }}
+                  >
                     <MoreHorizOutlined sx={{ color: "white" }} />
                   </IconButton>
                 </div>
-                <Menu
-                  open={isOpen}
-                  anchorEl={anchorEl}
-                  onClose={handleCloseActionMenu}
-                >
-                  <MenuItem onClick={handleClickProjectEditAction}>
-                    Edit
-                  </MenuItem>
-                  <MenuItem onClick={handleClickAddExtraChiefEditorAction}>
-                    Add Extra Chief Editor
-                  </MenuItem>
-                </Menu>
-                <ProjectEditModal
-                  isOpenProjectEditModal={showProjectEditModal}
-                  onCloseProjectEditModal={handleCloseProjectEditModal}
-                  projectData={project}
-                />
-                <ProjectAddExtraChiefEditorModal
-                  isOpenAddExtraChiefEditorModal={
-                    isOpenAddExtraChiefEditorModal
-                  }
-                  onCloseAddExtraChiefEditorModal={
-                    handleCloseAddExtraChiefEditorModal
-                  }
-                  projectId={project.id}
-                />
               </div>
             ))}
         </Stack>
@@ -172,6 +162,71 @@ export const ProjectsSideBar = ({
               <AddCircleOutlineOutlined />
             </IconButton>
           </div>
+        )}
+        <Menu open={isOpen} anchorEl={anchorEl} onClose={handleCloseActionMenu}>
+          <MenuItem
+            onClick={() => {
+              handleClickProjectEditAction();
+            }}
+          >
+            Edit
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClickAddExtraChiefEditorAction();
+            }}
+          >
+            Add Extra Chief Editor
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              const id =
+                selectedProjectData &&
+                selectedProjectData.extraChiefEditors.length > 0
+                  ? selectedProjectData.extraChiefEditors[0].id
+                  : "";
+              fetch(
+                `https://activity-monitoring-m950.onrender.com/projects/${
+                  selectedProjectData!.id
+                }/extraChiefEditors/${id}`,
+                {
+                  method: "DELETE",
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+                    "Content-Type": "application/json",
+                  },
+                }
+              )
+                .then((res) => {
+                  if (res.ok) return res.json();
+                  throw new Error();
+                })
+                .then(() => {
+                  window.location.replace("/home");
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
+          >
+            Delete Extra Chief Editor
+          </MenuItem>
+        </Menu>
+        {showProjectEditModal && (
+          <ProjectEditModal
+            isOpenProjectEditModal={showProjectEditModal}
+            onCloseProjectEditModal={handleCloseProjectEditModal}
+            projectData={selectedProjectData}
+          />
+        )}
+        {isOpenAddExtraChiefEditorModal && (
+          <ProjectAddExtraChiefEditorModal
+            isOpenAddExtraChiefEditorModal={isOpenAddExtraChiefEditorModal}
+            onCloseAddExtraChiefEditorModal={
+              handleCloseAddExtraChiefEditorModal
+            }
+            projectId={selectedProjectData!.id}
+          />
         )}
 
         <ProjectCreateModal

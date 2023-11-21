@@ -122,15 +122,15 @@ export const ProjectEditModal = ({
             <TextField {...params} variant="standard" label="Select Manager" />
           )}
         />
-        <TextField
+        {/* <TextField
           label="Chief Editor"
           value={`${projectData.chiefEditor.firstName} ${projectData.chiefEditor.lastName}`}
           disabled
           margin="dense"
           variant="standard"
           fullWidth
-        />
-        {/* <Autocomplete
+        /> */}
+        <Autocomplete
           options={chiefEditorsList}
           value={chiefEditorsList.find(
             (chiefEditor) => chiefEditor.id === projectData.chiefEditor.id
@@ -143,10 +143,10 @@ export const ProjectEditModal = ({
             <TextField
               {...params}
               variant="standard"
-              label="Add Chief Editor"
+              label="Select Chief Editor"
             />
           )}
-        /> */}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={onCloseProjectEditModal}>Cancel</Button>
