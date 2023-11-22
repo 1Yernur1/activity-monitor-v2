@@ -47,6 +47,12 @@ export const ChangeActivityStatusModal = ({
           { label: "To do", value: "TODO" },
           { label: "Archive", value: "ARCHIVE" },
         ]);
+      } else if ((decodedToken as any).custom_claims[0] === "TRANSLATOR") {
+        setStatusList([
+          { label: "In Progress", value: "IN_PROGRESS" },
+          { label: "In progress from review", value: "IN_PROGRESS_FROM_REVIEW" },
+          { label: "Review", value: "REVIEW" },
+        ]);
       }
     }
   }, []);
