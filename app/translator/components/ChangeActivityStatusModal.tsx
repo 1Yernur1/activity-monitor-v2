@@ -1,12 +1,4 @@
-import {
-  Autocomplete,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 
@@ -68,7 +60,7 @@ export const ChangeActivityStatusModal = ({
       status: status,
     };
     fetch(
-      `https://activity-monitoring-m950.onrender.com/activities/${activityId}/updateByManager/status`,
+      `https://activity-monitoring-m950.onrender.com/activities/${activityId}/updateByTranslator/status`,
       {
         method: "PUT",
         headers: {
@@ -79,7 +71,7 @@ export const ChangeActivityStatusModal = ({
       }
     )
       .then(() => {
-        window.location.replace("/home");
+        window.location.replace("/translator");
         onCloseChangeActivityModal();
       })
       .catch((error) => console.log(error))

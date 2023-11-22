@@ -9,7 +9,7 @@ import { ProjectCreateModal } from "./ProjectCreateModal";
 import { ActivityModel } from "../model/ActivityModel";
 import { ManagerModel } from "../model/ManagerModel";
 import { ProjectModel } from "../model/ProjectModel";
-import { useRouter } from "next/navigation";
+
 import { ProjectAddExtraChiefEditorModal } from "./ProjectAddExtraChiefEditor";
 
 export const ProjectsSideBar = ({

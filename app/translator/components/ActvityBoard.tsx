@@ -32,15 +32,15 @@ export const ActivityBoard = ({
           />
           <ActivityColumn
             activityList={activitiesList.filter(
-              (activity) => activity.status === "IN_PROGRESS_FROM_REVIEW"
-            )}
-            activityStatus="In progress from review"
-          />
-          <ActivityColumn
-            activityList={activitiesList.filter(
               (activity) => activity.status === "REVIEW"
             )}
             activityStatus="Review"
+          />
+          <ActivityColumn
+            activityList={activitiesList.filter(
+              (activity) => activity.status === "IN_PROGRESS_FROM_REVIEW"
+            )}
+            activityStatus="In progress from review"
           />
           <ActivityColumn
             activityList={activitiesList.filter(

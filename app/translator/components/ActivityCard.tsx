@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityLanguage } from "@/app/home/statless-components/ActivityLanguage";
 import { ActivityTargetLanguage } from "@/app/home/statless-components/ActivityTargetLanguage";
 import { ActivityDate } from "@/app/home/statless-components/ActivityDate";
 import { ActivityTranslator } from "@/app/home/statless-components/ActivityTranslator";
-import { ChangeActivityStatusModal } from "@/app/home/components/ChangeActivityStatusModal";
+import { ChangeActivityStatusModal } from "./ChangeActivityStatusModal";
+import { ActivityProject } from "./ActivityProject";
 
 export const ActivityCard = ({
   activityData,
@@ -80,6 +81,7 @@ export const ActivityCard = ({
             <ActivityDate description="Created Date" date={createdAt} />
             {/* <ActivityDate description="Updated Date" date={updatedAt} /> */}
             <ActivityTranslator firstName={firstName} lastName={lastName} />
+            <ActivityProject projectId={projectId} />
           </div>
         </CardContent>
       </Card>
