@@ -10,6 +10,7 @@ export const ActivityProject = ({ projectId }: { projectId: any }) => {
     fetch(
       `https://activity-monitoring-m950.onrender.com/projects/${projectId}`,
       {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("idToken")}`,
           "Content-Type": "application/json",
