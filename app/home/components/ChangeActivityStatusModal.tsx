@@ -34,6 +34,7 @@ export const ChangeActivityStatusModal = ({
     { label: "In progress from review", value: "IN_PROGRESS_FROM_REVIEW" },
     { label: "Review", value: "REVIEW" },
     { label: "Done", value: "DONE" },
+    { label: "Archive", value: "ARCHIVE" },
   ]);
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export const ChangeActivityStatusModal = ({
         setStatusList([
           { label: "Backlog", value: "NEW" },
           { label: "To do", value: "TODO" },
+          { label: "Archive", value: "ARCHIVE" },
         ]);
       }
     }

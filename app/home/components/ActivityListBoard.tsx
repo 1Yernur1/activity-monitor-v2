@@ -43,7 +43,7 @@ export const ActivityListBoard = ({
         </div>
       )}
       {activitiesList.length > 0 && (
-        <div className="min-w-[112.5rem] grid grid-cols-6 gap-x-2 px-4">
+        <div className="min-w-[135.5rem] grid grid-cols-7 gap-x-2 px-4">
           <ActivityColumn
             activityList={activitiesList.filter(
               (activity) => activity.status === "NEW"
@@ -79,6 +79,12 @@ export const ActivityListBoard = ({
               (activity) => activity.status === "DONE"
             )}
             activityStatus="Done"
+          />
+          <ActivityColumn
+              activityList={activitiesList.filter(
+                  (activity) => activity.status === "ARCHIVE"
+              )}
+              activityStatus="Archive"
           />
         </div>
       )}
