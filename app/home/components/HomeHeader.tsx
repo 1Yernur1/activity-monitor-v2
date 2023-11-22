@@ -30,6 +30,7 @@ export const HomeHeader = ({
 
   const handleClickSignOutBtn = () => {
     authContext?.setUser(null);
+    localStorage.removeItem("token");
     signOut(auth).then(() => router.push("/"));
   };
 

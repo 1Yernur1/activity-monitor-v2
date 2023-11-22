@@ -9,6 +9,7 @@ import { jwtDecode } from "jwt-decode";
 import { ActivityModel } from "./model/ActivityModel";
 import { ProjectModel } from "./model/ProjectModel";
 import { ReminderModal } from "./components/Reminder";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const [showActivityCreateModal, setShowActivityCreateModal] = useState(false);
@@ -18,11 +19,14 @@ export default function HomePage() {
   const [projectData, setProjectData] = useState<ProjectModel>(
     {} as ProjectModel
   );
-
+  const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("idToken");
     if (token) {
       const decodedToken = jwtDecode(token);
+      if ((decodedToken as any).custom_claims[0] === "TRANSLATOR") {
+        router.push("/translator");
+      }
     }
     setIsLoadingActivitiesList(true);
     fetch(
