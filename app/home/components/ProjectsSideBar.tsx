@@ -165,52 +165,51 @@ export const ProjectsSideBar = ({
         )}
         <Menu open={isOpen} anchorEl={anchorEl} onClose={handleCloseActionMenu}>
           <MenuItem
-            onClick={() => {
-              handleClickProjectEditAction();
-            }}
+              onClick={() => {
+                handleClickProjectEditAction();
+              }}
           >
             Edit
           </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClickAddExtraChiefEditorAction();
-            }}
-          >
-            Add Extra Chief Editor
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              const id =
-                selectedProjectData &&
-                selectedProjectData.extraChiefEditors.length > 0
-                  ? selectedProjectData.extraChiefEditors[0].id
-                  : "";
-              fetch(
-                `https://activity-monitoring-m950.onrender.com/projects/${
-                  selectedProjectData!.id
-                }/extraChiefEditors/${id}`,
-                {
-                  method: "DELETE",
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem("idToken")}`,
-                    "Content-Type": "application/json",
-                  },
-                }
-              )
-                .then((res) => {
-                  if (res.ok) return res.json();
-                  throw new Error();
-                })
-                .then(() => {
-                  window.location.replace("/home");
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }}
-          >
-            Delete Extra Chief Editor
-          </MenuItem>
+          {selectedProjectData?.extraChiefEditors.length === 0 ? (
+              <MenuItem
+                  onClick={() => {
+                    handleClickAddExtraChiefEditorAction();
+                  }}
+              >
+                Add Extra Chief Editor
+              </MenuItem>
+          ) : (
+              <MenuItem
+                  onClick={() => {
+                    const id = selectedProjectData.extraChiefEditors[0].id;
+                    fetch(
+                        `https://activity-monitoring-m950.onrender.com/projects/${
+                            selectedProjectData!.id
+                        }/extraChiefEditors/${id}`,
+                        {
+                          method: "DELETE",
+                          headers: {
+                            Authorization: `Bearer ${localStorage.getItem("idToken")}`,
+                            "Content-Type": "application/json",
+                          },
+                        }
+                    )
+                        .then((res) => {
+                          if (res.ok) return res.json();
+                          throw new Error();
+                        })
+                        .then(() => {
+                          window.location.replace("/home");
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                  }}
+              >
+                Delete Extra Chief Editor
+              </MenuItem>
+          )}
         </Menu>
         {showProjectEditModal && (
           <ProjectEditModal
