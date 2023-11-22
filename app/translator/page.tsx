@@ -12,7 +12,7 @@ export default function Page() {
       const decodedToken = jwtDecode(token);
 
       fetch(
-        `https:/activity-monitoring-m950.onrender.com/activities/translator/${
+        `https://activity-monitoring-m950.onrender.com/activities/translator/${
           (decodedToken as any).user_id
         }`,
         {
