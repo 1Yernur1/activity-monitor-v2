@@ -182,7 +182,7 @@ export const ProjectsSideBar = ({
           ) : (
               <MenuItem
                   onClick={() => {
-                    const id = selectedProjectData.extraChiefEditors[0].id;
+                    const id = selectedProjectData && selectedProjectData.extraChiefEditors.length > 0 ? selectedProjectData.extraChiefEditors[0].id : "";
                     fetch(
                         `https://activity-monitoring-m950.onrender.com/projects/${
                             selectedProjectData!.id
