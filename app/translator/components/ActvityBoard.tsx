@@ -14,12 +14,6 @@ export const ActivityBoard = ({
         <div className="min-w-[131.25rem] grid grid-cols-7 gap-x-2 px-4">
           <ActivityColumn
             activityList={activitiesList.filter(
-              (activity) => activity.status === "NEW"
-            )}
-            activityStatus="Backlog"
-          />
-          <ActivityColumn
-            activityList={activitiesList.filter(
               (activity) => activity.status === "TODO"
             )}
             activityStatus="To do"
@@ -38,9 +32,9 @@ export const ActivityBoard = ({
           />
           <ActivityColumn
             activityList={activitiesList.filter(
-              (activity) => activity.status === "IN_PROGRESS_FROM_REVIEW"
+              (activity) => activity.status === "REVISION"
             )}
-            activityStatus="In progress from review"
+            activityStatus="Revision"
           />
           <ActivityColumn
             activityList={activitiesList.filter(
