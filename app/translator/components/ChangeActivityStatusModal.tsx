@@ -43,12 +43,7 @@ export const ChangeActivityStatusModal = ({
         setStatusList([
           { label: "In Progress", value: "IN_PROGRESS" },
           { label: "Review", value: "REVIEW" },
-          {
-            label: "In progress from review",
-            value: "IN_PROGRESS_FROM_REVIEW",
-          },
-          { label: "Done", value: "DONE" },
-          { label: "Archive", value: "ARCHIVE" },
+          { label: "In progress from review", value: "IN_PROGRESS_FROM_REVIEW"}
         ]);
       }
     }
