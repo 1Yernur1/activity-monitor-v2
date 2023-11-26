@@ -33,6 +33,12 @@ export const ProjectInfoModal = ({
             </Typography>
           </div>
           <div className="flex justify-between items-center">
+            <Typography variant="body1">Created date of the project</Typography>
+            <Typography variant="body1" fontWeight={500}>
+              {new Date(projectData.createdAt).toLocaleDateString('en-GB')}
+            </Typography>
+          </div>
+          <div className="flex justify-between items-center">
             <Typography variant="body1">Deadline of the project</Typography>
             <Typography variant="body1" fontWeight={500}>
               {new Date(projectData.targetDate).toLocaleDateString('en-GB')}

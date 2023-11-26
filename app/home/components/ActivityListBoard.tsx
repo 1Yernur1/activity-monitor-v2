@@ -41,6 +41,10 @@ export const ActivityListBoard = ({
             </Typography>
           )}
           <Typography variant="body1" fontWeight={500}>
+            <span className="font-normal">Created Date:</span>{" "}
+            {new Date(projectData.createdAt).toLocaleDateString('en-GB')}
+          </Typography>
+          <Typography variant="body1" fontWeight={500}>
             <span className="font-normal">Deadline:</span>{" "}
             {new Date(projectData.targetDate).toLocaleDateString('en-GB')}
           </Typography>
