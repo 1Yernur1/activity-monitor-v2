@@ -32,6 +32,12 @@ export const ProjectInfoModal = ({
               {`${projectData.manager.firstName} ${projectData.manager.lastName}`}
             </Typography>
           </div>
+          <div className="flex justify-between items-center">
+            <Typography variant="body1">Deadline of the project</Typography>
+            <Typography variant="body1" fontWeight={500}>
+              {new Date(projectData.targetDate).toLocaleDateString('en-GB')}
+            </Typography>
+          </div>
           {projectData.extraChiefEditors.length > 0 && (
             <div className="flex justify-between items-center">
               <Typography variant="body1">Extra Chief Editor</Typography>

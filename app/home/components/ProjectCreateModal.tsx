@@ -1,7 +1,18 @@
-import { Autocomplete, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import {
+    Autocomplete,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField
+} from "@mui/material";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useEffect, useState } from "react";
 import { ManagerModel } from "../model/ManagerModel";
-
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { format } from 'date-fns';
 export const ProjectCreateModal = ({
   showProjectCreateModal,
   onCloseProjectCreateModal,
@@ -12,6 +23,7 @@ export const ProjectCreateModal = ({
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [projectChiefEditorId, setProjectChiefEditorId] = useState("");
+  const [projectDeadlineTime, setProjectDeadline] = useState<Date | null>(null);
   const [isProjectEditButtonDisabled, setIsProjectEditButtonDisabled] =
     useState(false);
 
@@ -53,6 +65,7 @@ export const ProjectCreateModal = ({
       name: projectName,
       description: projectDescription,
       chiefEditorId: projectChiefEditorId,
+      targetDate: projectDeadlineTime,
     };
 
     fetch(
@@ -102,6 +115,22 @@ export const ProjectCreateModal = ({
             />
           )}
         />
+          <div style={{marginTop: '16px'}}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                      label="Project Deadline"
+                      value={projectDeadlineTime}
+                      onChange={(newValue) => setProjectDeadline(newValue)}
+                      // renderInput={(params) => (
+                      //     <TextField
+                      //         {...params}
+                      //         variant="standard"
+                      //         // value={projectDeadlineTime ? format(projectDeadlineTime, 'dd.MM.yyyy') : ''}
+                      //     />
+                      // )}
+                  />
+              </LocalizationProvider>
+          </div>
       </DialogContent>
       <DialogActions>
         <Button onClick={onCloseProjectCreateModal}>Cancel</Button>

@@ -40,6 +40,10 @@ export const ActivityListBoard = ({
               {`${projectData.extraChiefEditors[0].firstName} ${projectData.extraChiefEditors[0].lastName}`}
             </Typography>
           )}
+          <Typography variant="body1" fontWeight={500}>
+            <span className="font-normal">Deadline:</span>{" "}
+            {new Date(projectData.targetDate).toLocaleDateString('en-GB')}
+          </Typography>
         </div>
       )}
       {activitiesList.length > 0 && (

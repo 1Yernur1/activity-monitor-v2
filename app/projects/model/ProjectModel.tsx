@@ -2,6 +2,7 @@ export interface ProjectModel {
   id: number;
   name: string;
   description: string;
+  targetDate: string;
   manager: {
     id: string;
     role: string;
