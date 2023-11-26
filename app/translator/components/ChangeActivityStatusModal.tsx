@@ -38,9 +38,6 @@ export const ChangeActivityStatusModal = ({
         setStatusList([
           { label: "Archive", value: "ARCHIVE" },
         ]);
-      } else if ((decodedToken as any).custom_claims[0] === "PROJECT_MANAGER" &&
-          (status != "TODO" || status != "IN_PROGRESS")) {
-        setStatusList([]);
       } else if ((decodedToken as any).custom_claims[0] === "TRANSLATOR" &&
                 status === "TODO") {
         setStatusList([
