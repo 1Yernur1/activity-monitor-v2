@@ -40,18 +40,25 @@ export const ChangeActivityStatusModal = ({
     const token = localStorage.getItem("idToken");
     if (token) {
       const decodedToken = jwtDecode(token);
-      if ((decodedToken as any).custom_claims[0] === "PROJECT_MANAGER") {
+      //MARK: PM status filter
+      if ((decodedToken as any).custom_claims[0] === "PROJECT_MANAGER" &&
+          (status === "TODO" || status == "IN_PROGRESS")) {
         setStatusList([
-          { label: "To do", value: "TODO" },
-          { label: "In Progress", value: "IN_PROGRESS" },
           { label: "Archive", value: "ARCHIVE" },
         ]);
-      } else if ((decodedToken as any).custom_claims[0] === "TRANSLATOR") {
+      } else if ((decodedToken as any).custom_claims[0] === "PROJECT_MANAGER" &&
+          (status != "TODO" || status != "IN_PROGRESS")) {
+        setStatusList([]);
+      } else if ((decodedToken as any).custom_claims[0] === "TRANSLATOR" &&
+          status === "TODO") {
         setStatusList([
-          { label: "In Progress", value: "IN_PROGRESS" },
-          { label: "Review", value: "REVIEW" },
-          { label: "Revision", value: "REVISION"}
+          {label: "In Progress", value: "IN_PROGRESS"},
         ]);
+      } else if ((decodedToken as any).custom_claims[0] === "TRANSLATOR" &&
+          (status === "IN_PROGRESS" || status === "REVISION")) {
+        setStatusList([
+          { label: "Review", value: "REVIEW" },
+        ])
       }
     }
   }, []);

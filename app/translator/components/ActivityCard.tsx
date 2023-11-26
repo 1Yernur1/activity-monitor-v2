@@ -15,6 +15,7 @@ import { ActivityDate } from "@/app/home/statless-components/ActivityDate";
 import { ActivityTranslator } from "@/app/home/statless-components/ActivityTranslator";
 import { ChangeActivityStatusModal } from "./ChangeActivityStatusModal";
 import { ActivityProject } from "./ActivityProject";
+import {jwtDecode} from "jwt-decode";
 
 export const ActivityCard = ({
   activityData,
@@ -54,43 +55,84 @@ export const ActivityCard = ({
   const handleCloseChangeActivityModal = () =>
     setShowChangeStatusActivityModal(false);
 
-  return (
-    <>
-      <Card sx={{ width: 275 }}>
-        <CardContent>
-          <div className="mb-2 flex justify-between items-center">
-            <Typography variant="h6" fontWeight={700}>
-              {title}
-            </Typography>
-            <IconButton onClick={handleClickHorizontalMenuIcon}>
-              <MoreHorizOutlinedIcon />
-            </IconButton>
-          </div>
-          <Menu
-            open={isOpen}
-            anchorEl={anchorEl}
-            onClose={handleCloseActivityMenu}
-          >
-            <MenuItem onClick={handleChangeActivityStatus}>
-              Change Status
-            </MenuItem>
-          </Menu>
-          <div className="flex flex-col gap-1">
-            <ActivityLanguage language={language} />
-            <ActivityTargetLanguage targetLanguage={targetLanguage} />
-            <ActivityDate description="Created Date" date={createdAt} />
-            {/* <ActivityDate description="Updated Date" date={updatedAt} /> */}
-            <ActivityTranslator firstName={firstName} lastName={lastName} />
-            <ActivityProject projectId={projectId} />
-          </div>
-        </CardContent>
-      </Card>
-      <ChangeActivityStatusModal
-        showChangeStatusActivityModal={showChangeStatusActivityModal}
-        onCloseChangeActivityModal={handleCloseChangeActivityModal}
-        activityStatus={activityData.status}
-        activityId={activityData.id}
-      />
-    </>
-  );
+  const userRole = jwtDecode(localStorage.getItem("idToken"))
+  if ((userRole as any).custom_claims[0] == "TRANSLATOR" &&
+      (status === "TODO" || status === "IN_PROGRESS" ||  status === "REVISION")) {
+    return (
+        <>
+          <Card sx={{ width: 275 }}>
+            <CardContent>
+              <div className="mb-2 flex justify-between items-center">
+                <Typography variant="h6" fontWeight={700}>
+                  {title}
+                </Typography>
+                <IconButton onClick={handleClickHorizontalMenuIcon}>
+                  <MoreHorizOutlinedIcon />
+                </IconButton>
+              </div>
+              <Menu
+                  open={isOpen}
+                  anchorEl={anchorEl}
+                  onClose={handleCloseActivityMenu}
+              >
+                <MenuItem onClick={handleChangeActivityStatus}>
+                  Change Status
+                </MenuItem>
+              </Menu>
+              <div className="flex flex-col gap-1">
+                <ActivityLanguage language={language} />
+                <ActivityTargetLanguage targetLanguage={targetLanguage} />
+                <ActivityDate description="Created Date" date={createdAt} />
+                {/* <ActivityDate description="Updated Date" date={updatedAt} /> */}
+                <ActivityTranslator firstName={firstName} lastName={lastName} />
+                <ActivityProject projectId={projectId} />
+              </div>
+            </CardContent>
+          </Card>
+          <ChangeActivityStatusModal
+              showChangeStatusActivityModal={showChangeStatusActivityModal}
+              onCloseChangeActivityModal={handleCloseChangeActivityModal}
+              activityStatus={activityData.status}
+              activityId={activityData.id}
+          />
+        </>
+    );
+  } else {
+    return (
+        <>
+          <Card sx={{ width: 275 }}>
+            <CardContent>
+              <div className="mb-2 flex justify-between items-center">
+                <Typography variant="h6" fontWeight={700}>
+                  {title}
+                </Typography>
+              </div>
+              <Menu
+                  open={isOpen}
+                  anchorEl={anchorEl}
+                  onClose={handleCloseActivityMenu}
+              >
+                <MenuItem onClick={handleChangeActivityStatus}>
+                  Change Status
+                </MenuItem>
+              </Menu>
+              <div className="flex flex-col gap-1">
+                <ActivityLanguage language={language} />
+                <ActivityTargetLanguage targetLanguage={targetLanguage} />
+                <ActivityDate description="Created Date" date={createdAt} />
+                {/* <ActivityDate description="Updated Date" date={updatedAt} /> */}
+                <ActivityTranslator firstName={firstName} lastName={lastName} />
+                <ActivityProject projectId={projectId} />
+              </div>
+            </CardContent>
+          </Card>
+          <ChangeActivityStatusModal
+              showChangeStatusActivityModal={showChangeStatusActivityModal}
+              onCloseChangeActivityModal={handleCloseChangeActivityModal}
+              activityStatus={activityData.status}
+              activityId={activityData.id}
+          />
+        </>
+    );
+  }
 };
