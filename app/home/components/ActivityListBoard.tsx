@@ -43,7 +43,7 @@ export const ActivityListBoard = ({
         </div>
       )}
       {activitiesList.length > 0 && (
-        <div className="min-w-[135.5rem] grid grid-cols-6 gap-x-2 px-4">
+        <div className="min-w-[112.5rem] grid grid-cols-6 gap-x-2 px-4">
           <ActivityColumn
             activityList={activitiesList.filter(
               (activity) => activity.status === "TODO"
