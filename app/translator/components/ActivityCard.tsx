@@ -55,7 +55,7 @@ export const ActivityCard = ({
   const handleCloseChangeActivityModal = () =>
     setShowChangeStatusActivityModal(false);
 
-  const userRole = jwtDecode(localStorage.getItem("idToken"))
+  const userRole = jwtDecode(localStorage.getItem("idToken") || "")
   if ((userRole as any).custom_claims[0] == "TRANSLATOR" &&
       (status === "TODO" || status === "IN_PROGRESS" ||  status === "REVISION")) {
     return (
