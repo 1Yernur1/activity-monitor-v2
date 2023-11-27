@@ -121,13 +121,6 @@ export const ProjectCreateModal = ({
                       label="Project Deadline"
                       value={projectDeadlineTime}
                       onChange={(newValue) => setProjectDeadline(newValue)}
-                      // renderInput={(params) => (
-                      //     <TextField
-                      //         {...params}
-                      //         variant="standard"
-                      //         // value={projectDeadlineTime ? format(projectDeadlineTime, 'dd.MM.yyyy') : ''}
-                      //     />
-                      // )}
                   />
               </LocalizationProvider>
           </div>
